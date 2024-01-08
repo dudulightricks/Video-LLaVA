@@ -126,7 +126,7 @@ class LanguageBindVideoProcessor(ProcessorMixin):
         self.transform = get_video_transform(config)
         self.image_processor = load_and_transform_video
         self.tokenizer = tokenizer
-        
+
 
     def __call__(self, images=None, text=None, context_length=77, return_tensors=None, **kwargs):
         if text is None and images is None:
