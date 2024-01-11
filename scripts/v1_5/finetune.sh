@@ -1,17 +1,16 @@
 
 
-DATA_ROOT="llava_all_image_video"
-HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 CUDA_VISIBLE_DEVICES=0,1,2,3 deepspeed llava/train/train_mem.py \
+DATA_ROOT="/opt/msr-vtt-for-train"
+deepspeed llava/train/train_mem.py \
     --deepspeed ./scripts/zero2.json \
-    --model_name_or_path lmsys/vicuna-7b-v1.5 \
+    --model_name_or_path /opt/llava-video-7b \
     --version v1 \
-    --data_path train_json/videochatgpt_llavaimage_tune.json \
+    --data_path /opt/msr-vtt-for-train.json \
     --video_folder ${DATA_ROOT} \
     --image_folder ${DATA_ROOT} \
     --X "Video" "Image" \
     --video_tower LanguageBind/LanguageBind_Video_merge \
     --image_tower LanguageBind/LanguageBind_Image \
-    --pretrain_mm_mlp_adapter checkpoints/Video-LLaVA-Pretrain-7B/mm_projector.bin \
     --mm_projector_type mlp2x_gelu \
     --mm_vision_select_layer -2 \
     --mm_use_x_start_end False \
@@ -20,11 +19,11 @@ HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 CUDA_VISIBLE_DEVICES=0,1,2,3 deepsp
     --group_by_modality_length True \
     --bf16 True \
     --output_dir ./checkpoints/Video-LLaVA-7B \
-    --num_train_epochs 1 \
+    --num_train_epochs 2 \
     --per_device_train_batch_size 16 \
-    --per_device_eval_batch_size 4 \
-    --gradient_accumulation_steps 2 \
-    --evaluation_strategy "no" \
+    --per_device_eval_batch_size 1 \
+    --gradient_accumulation_steps 8 \
+    --evaluation_strategy "epoch" \
     --save_strategy "steps" \
     --save_steps 50000 \
     --save_total_limit 1 \
