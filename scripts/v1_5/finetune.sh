@@ -1,7 +1,8 @@
 
 
 DATA_ROOT="/opt/msr-vtt-for-train"
-python llava/train/train_mem.py \
+deepspeed llava/train/train_mem.py \
+    --deepspeed ./scripts/zero2.json \
     --model_name_or_path /opt/llava-video-7b \
     --version v1 \
     --data_path /opt/msr-vtt-for-train.json \
