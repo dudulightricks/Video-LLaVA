@@ -4,7 +4,7 @@ DATA_ROOT="/opt/msr-vtt-for-train"
 deepspeed llava/train/train_mem.py \
     --deepspeed ./scripts/zero2.json \
     --model_name_or_path /opt/llava-video-7b \
-    --lora_enable True --lora_r 128 --lora_alpha 256 --mm_projector_lr 2e-5 \
+    --lora_enable True --lora_r 128 --lora_alpha 256 \
     --version v1 \
     --data_path /opt/msr-vtt-for-train.json \
     --video_folder ${DATA_ROOT} \
