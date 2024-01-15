@@ -1,7 +1,7 @@
 
 
 DATA_ROOT="/opt/msr-vtt-for-train"
-python llava/train/train_mem.py \
+CUDA_VISIBLE_DEVICES=0,1 python llava/train/train_mem.py \
     --model_name_or_path /opt/llava-video-7b \
     --version v1 \
     --data_path /opt/msr-vtt-for-train.json \
