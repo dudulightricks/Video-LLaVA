@@ -4,7 +4,6 @@ DATA_ROOT="/opt/msr-vtt-for-train"
 deepspeed llava/train/train_mem.py \
     --deepspeed ./scripts/zero2.json \
     --model_name_or_path /opt/llava-video-7b \
-    --lora_enable True --lora_r 128 --lora_alpha 256 \
     --version v1 \
     --data_path /opt/msr-vtt-for-train.json \
     --video_folder ${DATA_ROOT} \
@@ -23,7 +22,7 @@ deepspeed llava/train/train_mem.py \
     --num_train_epochs 2 \
     --per_device_train_batch_size 1 \
     --per_device_eval_batch_size 1 \
-    --gradient_accumulation_steps 8 \
+    --gradient_accumulation_steps 4 \
     --evaluation_strategy "epoch" \
     --save_strategy "steps" \
     --save_steps 50 \
@@ -36,7 +35,7 @@ deepspeed llava/train/train_mem.py \
     --tf32 True \
     --model_max_length 2048 \
     --gradient_checkpointing True \
-    --dataloader_num_workers 4 \
+    --dataloader_num_workers 2 \
     --lazy_preprocess True \
     --cache_dir "./cache_dir"
     --report_to wandb
