@@ -1,22 +1,19 @@
 
+IMAGE_FOLDER="/opt/msr-vtt-for-train"
+VIDEO_FOLDER="/opt/msr-vtt-for-train"
+cd /opt/Video-LLaVA
 
-JSON_FOLDER="llava_all_image_video/ft_json"
-IMAGE_FOLDER="llava_all_image_video"
-VIDEO_FOLDER="llava_all_image_video"
-cd /path/to/Video-LLaVA
-
-HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 deepspeed videollava/train/train_mem.py \
+deepspeed videollava/train/train_mem.py \
     --lora_enable True --lora_r 128 --lora_alpha 256 --mm_projector_lr 2e-5 \
     --deepspeed ./scripts/zero2_offload.json \
-    --model_name_or_path lmsys/vicuna-7b-v1.5 \
+    --model_name_or_path /opt/llava-video-7b \
     --version v1 \
-    --data_path ${JSON_FOLDER}/llava_image_tune_.json ${JSON_FOLDER}/videochatgpt_tune_.json ${JSON_FOLDER}/nlp_tune.json \
+    --data_path /opt/msr-vtt-for-train.json \
     --image_folder ${IMAGE_FOLDER} \
     --image_tower LanguageBind/LanguageBind_Image \
     --video_folder ${VIDEO_FOLDER} \
     --video_tower LanguageBind/LanguageBind_Video_merge \
     --mm_projector_type mlp2x_gelu \
-    --pretrain_mm_mlp_adapter ./checkpoints/videollava-7b-pretrain/mm_projector.bin \
     --mm_vision_select_layer -2 \
     --mm_use_im_start_end False \
     --mm_use_im_patch_token False \
@@ -24,13 +21,13 @@ HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 deepspeed videollava/train/train_me
     --group_by_modality_length True \
     --bf16 True \
     --output_dir ./checkpoints/videollava-7b-lora \
-    --num_train_epochs 1 \
-    --per_device_train_batch_size 16 \
-    --per_device_eval_batch_size 4 \
-    --gradient_accumulation_steps 1 \
-    --evaluation_strategy "no" \
+    --num_train_epochs 2 \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --gradient_accumulation_steps 8 \
+    --evaluation_strategy "epoch" \
     --save_strategy "steps" \
-    --save_steps 50000 \
+    --save_steps 500 \
     --save_total_limit 1 \
     --learning_rate 2e-4 \
     --weight_decay 0. \
@@ -42,5 +39,4 @@ HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 deepspeed videollava/train/train_me
     --gradient_checkpointing True \
     --dataloader_num_workers 4 \
     --lazy_preprocess True \
-    --report_to tensorboard \
     --cache_dir "./cache_dir"
