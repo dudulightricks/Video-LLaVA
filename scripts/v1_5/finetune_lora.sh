@@ -8,7 +8,7 @@ deepspeed videollava/train/train_mem.py \
     --deepspeed ./scripts/zero2_offload.json \
     --model_name_or_path /opt/llava-video-7b \
     --version v1 \
-    --data_path /opt/msr-vtt-for-train.json \
+    --data_path /opt/msr-vtt-train-part.json \
     --image_folder ${IMAGE_FOLDER} \
     --image_tower LanguageBind/LanguageBind_Image \
     --video_folder ${VIDEO_FOLDER} \
