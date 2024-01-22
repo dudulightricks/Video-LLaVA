@@ -22,9 +22,9 @@ deepspeed videollava/train/train_mem.py \
     --bf16 True \
     --output_dir ./checkpoints/videollava-7b-lora \
     --num_train_epochs 2 \
-    --per_device_train_batch_size 1 \
+    --per_device_train_batch_size 4 \
     --per_device_eval_batch_size 1 \
-    --gradient_accumulation_steps 8 \
+    --gradient_accumulation_steps 4 \
     --evaluation_strategy "epoch" \
     --save_strategy "steps" \
     --save_steps 500 \
