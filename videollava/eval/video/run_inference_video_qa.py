@@ -12,7 +12,10 @@ from videollava.mm_utils import get_model_name_from_path, tokenizer_image_token,
 from videollava.model.builder import load_pretrained_model
 from videollava.model.language_model.llava_llama import LlavaLlamaForCausalLM
 from videollava.train.train import smart_tokenizer_and_embedding_resize
-
+BASE_PROMPT_VIDEOS = (
+    "A chat between a curious human and an artificial intelligence assistant. The assistant gives"
+    " helpful, detailed, and polite answers to the human's questions. USER: <video>\nDescribe the video. ASSISTANT:"
+)
 
 def split_list(lst, n):
     """Split a list into n (roughly) equal-sized chunks"""
@@ -34,8 +37,6 @@ def parse_args():
     parser.add_argument('--model_path', help='', required=True)
     parser.add_argument('--cache_dir', help='', required=True)
     parser.add_argument('--video_dir', help='Directory containing video files.', required=True)
-    parser.add_argument('--gt_file_question', help='Path to the ground truth file containing question.', required=True)
-    parser.add_argument('--gt_file_answers', help='Path to the ground truth file containing answers.', required=True)
     parser.add_argument('--output_dir', help='Directory to save the model results JSON.', required=True)
     parser.add_argument('--output_name', help='Name of the file for storing results JSON.', required=True)
     parser.add_argument("--num_chunks", type=int, default=1)
@@ -46,7 +47,8 @@ def parse_args():
 
     return parser.parse_args()
 
-def get_model_output(model, video_processor, tokenizer, video, qs, args):
+def get_model_output(model, video_processor, tokenizer, video, args):
+    qs = ""
     if model.config.mm_use_im_start_end:
         qs = DEFAULT_X_START_TOKEN['VIDEO'] + ''.join([DEFAULT_IMAGE_TOKEN]*8) + DEFAULT_X_END_TOKEN['VIDEO'] + '\n' + qs
     else:
@@ -116,11 +118,12 @@ def run_inference(args):
     # with open(args.gt_file_answers) as file:
     #     gt_answers = json.load(file)
 
-    gt_questions = json.load(open(args.gt_file_question, "r"))
-    gt_questions = get_chunk(gt_questions, args.num_chunks, args.chunk_idx)
-    gt_answers = json.load(open(args.gt_file_answers, "r"))
+    # gt_questions = json.load(open(args.gt_file_question, "r"))
+    # gt_questions = get_chunk(gt_questions, args.num_chunks, args.chunk_idx)
+    # gt_answers = json.load(open(args.gt_file_answers, "r"))
     # gt_answers = get_chunk(gt_answers, args.num_chunks, args.chunk_idx)
-
+    model.save_pretrained("/opt/llava-video-with-lora/")
+    exit(0)
     answers_file = os.path.join(args.output_dir, f"{args.output_name}.json")
     os.makedirs(args.output_dir, exist_ok=True)
     ans_file = open(answers_file, "w")
@@ -138,12 +141,10 @@ def run_inference(args):
     index = 0
     for sample in tqdm(gt_questions):
         video_name = sample['video_name']
-        question = sample['question']
         id = sample['question_id']
-        answer = gt_answers[index]['answer']
         index += 1
 
-        sample_set = {'id': id, 'question': question, 'answer': answer}
+        sample_set = {'id': id, 'question': "question", 'answer': "answer"}
 
         # Load the video file
         for fmt in tqdm(video_formats):  # Added this line
@@ -152,7 +153,7 @@ def run_inference(args):
                 video_path = temp_path
                 # try:
                 # Run inference on the video and add the output to the list
-                output = get_model_output(model, processor['video'], tokenizer, video_path, question, args)
+                output = get_model_output(model, processor['video'], tokenizer, video_path, args)
                 sample_set['pred'] = output
                 output_list.append(sample_set)
                 # except Exception as e:
