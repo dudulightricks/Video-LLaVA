@@ -6,10 +6,10 @@ from llava.utils import disable_torch_init
 from llava.mm_utils import tokenizer_X_token, get_model_name_from_path, KeywordsStoppingCriteria
 
 def main():
-    videos = [ '/opt/Video-LLaVA/llava/eval/table/answer/MotionBrush.mp4']
+    videos = ['/opt/Video-LLaVA/llava/eval/table/answer/MotionBrush.mp4']
     inputs = ['What is in this video?', ]
     disable_torch_init()
-    model_path = 'LanguageBind/Video-LLaVA-7B'
+    model_path = "/opt/llava-video-with-msrvtt"#'LanguageBind/Video-LLaVA-7B'
     device = 'cuda'
     load_4bit, load_8bit = False, False
     model_name = get_model_name_from_path(model_path)
