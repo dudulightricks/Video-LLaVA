@@ -8,7 +8,7 @@ deepspeed videollava/train/train_mem.py \
     --deepspeed ./scripts/zero2_offload.json \
     --model_name_or_path /opt/llava-video-7b \
     --version v1 \
-    --data_path /opt/my-manual-for-train-video.json \
+    --data_path /opt/my-manual-plus-for-train-video.json \
     --image_folder ${IMAGE_FOLDER} \
     --image_tower LanguageBind/LanguageBind_Image \
     --video_folder ${VIDEO_FOLDER} \
@@ -20,7 +20,7 @@ deepspeed videollava/train/train_mem.py \
     --image_aspect_ratio pad \
     --group_by_modality_length True \
     --bf16 True \
-    --output_dir ./checkpoints/videollava-7b-manual-lora-only \
+    --output_dir ./checkpoints/videollava-7b-manual-plus-lora-only \
     --num_train_epochs 2 \
     --per_device_train_batch_size 4 \
     --per_device_eval_batch_size 1 \
