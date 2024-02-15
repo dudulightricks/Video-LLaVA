@@ -8,7 +8,7 @@ deepspeed videollava/train/train_mem.py \
     --deepspeed ./scripts/zero2_offload.json \
     --model_name_or_path /opt/llava-video-7b \
     --version v1 \
-    --data_path /opt/my-manual-320-train-part.json \
+    --data_path /opt/my-manual-320-for-train-video.json \
     --image_folder ${IMAGE_FOLDER} \
     --image_tower LanguageBind/LanguageBind_Image \
     --video_folder ${VIDEO_FOLDER} \
@@ -21,11 +21,11 @@ deepspeed videollava/train/train_mem.py \
     --group_by_modality_length True \
     --bf16 True \
     --output_dir ./checkpoints/videollava-7b-manual-320 \
-    --num_train_epochs 4 \
+    --num_train_epochs 2 \
     --per_device_train_batch_size 4 \
     --per_device_eval_batch_size 1 \
     --gradient_accumulation_steps 4 \
-    --evaluation_strategy "epoch" \
+    --evaluation_strategy "no" \
     --save_strategy "steps" \
     --save_steps 50 \
     --save_total_limit 1 \
