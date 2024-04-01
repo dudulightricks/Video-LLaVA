@@ -1,14 +1,14 @@
 
-IMAGE_FOLDER="/opt/my-manual-204-after-grammer-for-train"
-VIDEO_FOLDER="/opt/my-manual-204-after-grammer-for-train"
+IMAGE_FOLDER="/opt/hdvila-with-gemini-73k"
+VIDEO_FOLDER="/opt/hdvila-with-gemini-73k"
 cd /opt/Video-LLaVA
 
 deepspeed videollava/train/train_mem.py \
     --lora_enable True --lora_r 128 --lora_alpha 256 --mm_projector_lr 2e-5 \
     --deepspeed ./scripts/zero2_offload.json \
-    --model_name_or_path /opt/llava-video-with-manual-120-only \
+    --model_name_or_path /opt/llava-video-7b \
     --version v1 \
-    --data_path /opt/my-manual-204-for-train-video.json \
+    --data_path /opt/hdvila-with-gemini-73k-train.json \
     --image_folder ${IMAGE_FOLDER} \
     --image_tower LanguageBind/LanguageBind_Image \
     --video_folder ${VIDEO_FOLDER} \
@@ -20,15 +20,14 @@ deepspeed videollava/train/train_mem.py \
     --image_aspect_ratio pad \
     --group_by_modality_length True \
     --bf16 True \
-    --output_dir ./checkpoints/videollava-7b-manual-204-on-120-1epoch \
-    --num_train_epochs 1 \
+    --output_dir ./checkpoints/videollava-hdvila-with-gemini-73k-lora \
+    --num_train_epochs 2 \
     --per_device_train_batch_size 4 \
     --per_device_eval_batch_size 1 \
     --gradient_accumulation_steps 4 \
-    --evaluation_strategy "no" \
-    --save_strategy "steps" \
-    --save_steps 50 \
-    --save_total_limit 1 \
+    --evaluation_strategy "epoch" \
+    --save_strategy "epoch" \
+    --save_total_limit 2 \
     --learning_rate 2e-4 \
     --weight_decay 0. \
     --warmup_ratio 0.03 \
