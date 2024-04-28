@@ -122,14 +122,14 @@ def run_inference(args):
     # gt_questions = get_chunk(gt_questions, args.num_chunks, args.chunk_idx)
     # gt_answers = json.load(open(args.gt_file_answers, "r"))
     # gt_answers = get_chunk(gt_answers, args.num_chunks, args.chunk_idx)
-    model.save_pretrained("/opt/llava-video-gemini-73k-1epoch/")
+    model.save_pretrained("/opt/llava-video-gemini-337k-2epoch/")
     torch.save(model.get_model().get_image_tower().state_dict(),
-               "/opt/tpu-llava-video-gemini-73k/llava/vision_tower_weights.pth")
+               "/opt/tpu-llava-video-gemini-337k/llava/vision_tower_weights.pth")
     torch.save(model.get_model().mm_projector.state_dict(),
-               "/opt/tpu-llava-video-gemini-73k/llava/mm_projector_weights.pth")
+               "/opt/tpu-llava-video-gemini-337k/llava/mm_projector_weights.pth")
     torch.save(model.get_model().get_video_tower().state_dict(),
-               "/opt/tpu-llava-video-gemini-73k/llava/video_tower_weights.pth")
-    torch.save(model.lm_head.state_dict(), "/opt/tpu-llava-video-gemini-73k/llava/lm_heads.pth")
+               "/opt/tpu-llava-video-gemini-337k/llava/video_tower_weights.pth")
+    torch.save(model.lm_head.state_dict(), "/opt/tpu-llava-video-gemini-337k/llava/lm_heads.pth")
     exit(0)
     answers_file = os.path.join(args.output_dir, f"{args.output_name}.json")
     os.makedirs(args.output_dir, exist_ok=True)
