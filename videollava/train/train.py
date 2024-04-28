@@ -873,7 +873,7 @@ def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer,
                                 data_path=data_args.data_path,
                                 data_args=data_args)
     eval_dataset = LazySupervisedDataset(tokenizer=tokenizer,
-                                data_path=["/opt/hdvila-with-gemini-clean-337k-val.json"],
+                                data_path=["/opt/hdvila-with-gemini-clean-440k-eval.json"],
                                 data_args=data_args)
     data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
     return dict(train_dataset=train_dataset,
