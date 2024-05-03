@@ -21,13 +21,13 @@ deepspeed videollava/train/train_mem.py \
     --group_by_modality_length True \
     --bf16 True \
     --output_dir ./checkpoints/videollava-hdvila-with-gemini-440k-lora-on-337k-2epoch-base \
-    --num_train_epochs 1 \
+    --num_train_epochs 2 \
     --per_device_train_batch_size 4 \
     --per_device_eval_batch_size 1 \
     --gradient_accumulation_steps 4 \
     --evaluation_strategy "epoch" \
     --save_strategy "epoch" \
-    --save_total_limit 1 \
+    --save_total_limit 3 \
     --learning_rate 2e-4 \
     --weight_decay 0. \
     --warmup_ratio 0.03 \
