@@ -122,7 +122,7 @@ def run_inference(args):
     # gt_questions = get_chunk(gt_questions, args.num_chunks, args.chunk_idx)
     # gt_answers = json.load(open(args.gt_file_answers, "r"))
     # gt_answers = get_chunk(gt_answers, args.num_chunks, args.chunk_idx)
-    model.save_pretrained("/opt/llava-video-gemini-1136k-on-777k-1epoch/")
+    model.save_pretrained("/opt/llava-video-gemini-1136k-on-777k-2epoch/")
     torch.save(model.get_model().get_image_tower().state_dict(),
                "/opt/tpu-llava-video-gemini-1136k-on-777k/llava/vision_tower_weights.pth")
     torch.save(model.get_model().mm_projector.state_dict(),
