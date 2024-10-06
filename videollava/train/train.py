@@ -873,7 +873,7 @@ def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer,
                                 data_path=data_args.data_path,
                                 data_args=data_args)
     eval_dataset = LazySupervisedDataset(tokenizer=tokenizer,
-                                data_path=["/opt/hdvila-with-gemini-1136k-val.json"],
+                                data_path=["/opt/dataset-mix-gemini-v2-val.json"],
                                 data_args=data_args)
     data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
     return dict(train_dataset=train_dataset,
@@ -1030,7 +1030,7 @@ def train():
         tokenizer_model_max_length = training_args.tokenizer_model_max_length
         model.config.tokenizer_model_max_length = tokenizer.model_max_length if tokenizer_model_max_length is None else tokenizer_model_max_length
         # =============================================================================================================
-        
+
         model.config.tune_mm_mlp_adapter = training_args.tune_mm_mlp_adapter = model_args.tune_mm_mlp_adapter
         if model_args.tune_mm_mlp_adapter:
             model.requires_grad_(False)
